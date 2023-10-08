@@ -1,0 +1,15 @@
+module.exports.categoriesService = require("./categories.service");
+module.exports.cityService = require("./city.service");
+module.exports.foodGallaryService = require("./foodGallary.service");
+module.exports.orderDetailsService = require("./orderDetails.service");
+module.exports.userService = require("./user.service");
+module.exports.orderItemsService = require("./orderItems.service");
+module.exports.otpService = require("./otp.service");
+module.exports.ownerDetailsService = require("./ownerDetails.service");
+module.exports.paymentMethodService = require("./paymentMethod.service");
+module.exports.restDetailsService = require("./restDetails.service");
+module.exports.restTypeService = require("./restType.service");
+module.exports.reviewsService = require("./reviews.service");
+module.exports.stateService = require("./state.service");
+module.exports.emailService = require("./email.service");
+module.exports.tokenService=require("./token.service");

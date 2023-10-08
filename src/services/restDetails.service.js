@@ -1,0 +1,23 @@
+const restDetails = require("../models/restDetails")
+
+const createrestDetails = async (reqBody) => {
+    return restDetails.create(reqBody)
+};
+
+const listrestDetails = async () => {
+    return restDetails.find()
+};
+
+const getId = async (id) => {
+    return restDetails.findById(id);
+};
+
+const deleterestDetails = async (Id) => {
+    return restDetails.findByIdAndDelete(Id)
+};
+
+const updaterestDetails = async (Id, updatebody) => {
+    return restDetails.findByIdAndUpdate(Id, { $set: updatebody })
+}
+
+module.exports = { createrestDetails, listrestDetails, deleterestDetails, getId, updaterestDetails }
