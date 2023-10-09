@@ -1,8 +1,6 @@
 const { userService, emailService } = require("../services");
-const config = require("../config/config");
-const jwt = require("jsonwebtoken");
-const moment = require("moment");
-const bcrypt = require("bcryptjs");
+const path=require("path");
+const ejs=require("ejs");
 
 /* --------------------- Register/Create user controller -------------------- */
 
@@ -10,35 +8,37 @@ const createUser = async (req, res) => {
     try {
         const reqBody = req.body
 
-        let option = {
-            user_name: reqBody.user_name,
-            email: reqBody.email,
-            password: reqBody.password,
-            telephone: reqBody.telephone,
-            address: reqBody.address,
-            role: reqBody.role,
-            exp: moment().add(1, "days").unix(),
-        };
-
-        const haspassword = await bcrypt.hash(reqBody.password, 10);
-
-        const token = await jwt.sign(option, config.jwt.secret_key);
-
-        const filterData = {
-            user_name: reqBody.user_name,
-            email: reqBody.email,
-            password: haspassword,
-            telephone: reqBody.telephone,
-            address: reqBody.address,
-            role: reqBody.role,
-            token: token,
-        };
-
-        const user = await userService.createUser(filterData);
-        if (!user) {
-            throw new Error("Something went wrong, please try again or later!");
+        const userExists = await userService.getUserByEmail(reqBody.email);
+        if (userExists) {
+          throw new Error("User already created by this email!");
         }
 
+        const user = await userService.createUser(reqBody);
+
+        if (!user) {
+          throw new Error("Something went wrong, please try again or later!");
+        }
+
+        ejs.renderFile(
+          path.join(__dirname, "../views/otp-template.ejs"),
+          {
+            email: reqBody.email,
+            otp: ("0".repeat(4) + Math.floor(Math.random() * 10 ** 4)).slice(-4),
+            first_name: reqBody.first_name,
+            last_name: reqBody.last_name,
+          },
+          async (err, data) => {
+            if (err) {
+              let userCreated = await userService.getUserByEmail(reqBody.email);
+              if (userCreated) {
+                await userService.deleteUserByEmail(reqBody.email);
+              }
+              throw new Error("Something went wrong, please try again.");
+            } else {
+              emailService.sendMail(reqBody.email, data, "Verify Email");
+            }
+          }
+        );
         res.status(200).json({
             success: true,
             message: "user create successfully!",
