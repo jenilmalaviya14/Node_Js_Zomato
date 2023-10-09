@@ -1,6 +1,8 @@
 const { userService, emailService } = require("../services");
 const path=require("path");
 const ejs=require("ejs");
+const moment = require("moment");
+const bcrypt = require("bcrypt")
 
 /* --------------------- Register/Create user controller -------------------- */
 
@@ -8,12 +10,40 @@ const createUser = async (req, res) => {
     try {
         const reqBody = req.body
 
+        let option = {
+            first_name: reqBody.first_name,
+            last_name: reqBody.last_name,
+            email: reqBody.email,
+            password: reqBody.password,
+            address: reqBody.address,
+            telephone: reqBody.trelephone,
+            country: reqBody.country,
+            role: reqBody.role,
+            exp: moment().add(1, "days").unix(),
+          };
+
+          const hasPassword = await bcrypt.hash(reqBody.password, 10);
+
+          const token = await jwt.sign(option, config.jwt.secret_key);
+
+          const filterData = {
+            first_name: reqBody.first_name,
+            last_name: reqBody.last_name,
+            email: reqBody.email,
+            password: hasPassword,
+            address: reqBody.address,
+            telephone: reqBody.telephone,
+            country: reqBody.country,
+            role: reqBody.role,
+            token: token,
+          };
+
         const userExists = await userService.getUserByEmail(reqBody.email);
         if (userExists) {
           throw new Error("User already created by this email!");
         }
 
-        const user = await userService.createUser(reqBody);
+        const user = await userService.createUser(filterData);
 
         if (!user) {
           throw new Error("Something went wrong, please try again or later!");

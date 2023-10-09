@@ -25,6 +25,10 @@ const deleteUserByEmail = async (email) => {
 
 const updateUser = async (Id, updatebody) => {
     return User.findByIdAndUpdate(Id, { $set: updatebody })
-}
+};
 
-module.exports = { createUser, listUser, deleteUser, getId, updateUser, deleteUserByEmail, getUserByEmail }
+const getAllUser = async (role) => {
+    return await User.find(role);
+};
+
+module.exports = { createUser, listUser, deleteUser, getId, updateUser, deleteUserByEmail, getUserByEmail, getAllUser }
