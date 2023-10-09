@@ -5,11 +5,11 @@ const createrestDetails = async (reqBody) => {
 };
 
 const listrestDetails = async () => {
-    return restDetails.find()
+    return restDetails.find().populate({ path: "rest_type", select: ["Rest_type"] }).populate({path : "owner_details"})
 };
 
 const getId = async (id) => {
-    return restDetails.findById(id);
+        return restDetails.findById(id);
 };
 
 const deleterestDetails = async (Id) => {

@@ -5,7 +5,7 @@ const createReviews = async (reqBody) => {
 };
 
 const listReviews = async () => {
-    return Reviews.find()
+    return Reviews.find().populate({ path: "user" }).populate({ path: "rest_details", select: ["Rest_name"] })
 };
 
 const getId = async (id) => {

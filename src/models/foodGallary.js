@@ -28,7 +28,11 @@ const FoodGallarySchema = new mongoose.Schema({
     rest_details: {
         type: mongoose.Types.ObjectId,
         ref: 'rest_details'
-    }
+    },
+    rest_type: {
+        type: mongoose.Types.ObjectId,
+        ref: 'rest_type'
+    },
 },
     {
         timestamps: true,

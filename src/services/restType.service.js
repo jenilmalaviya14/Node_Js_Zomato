@@ -5,7 +5,7 @@ const createrestType = async (reqBody) => {
 };
 
 const listrestType = async () => {
-    return restType.find()
+    return restType.find().populate({ path: "rest_details" })
 };
 
 const getId = async (id) => {

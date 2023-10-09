@@ -5,7 +5,7 @@ const createpaymentMethod = async (reqBody) => {
 };
 
 const listpaymentMethod = async () => {
-    return paymentMethod.find()
+    return paymentMethod.find().populate({path : "user"})
 };
 
 const getId = async (id) => {

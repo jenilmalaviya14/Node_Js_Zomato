@@ -5,7 +5,7 @@ const createownerDetails = async (reqBody) => {
 };
 
 const listownerDetails = async () => {
-    return ownerDetails.find()
+    return ownerDetails.find().populate({ path: "user" }).populate({ path: "rest_details", select: ["Rest_name"] })
 };
 
 const getId = async (id) => {

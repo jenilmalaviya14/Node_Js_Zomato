@@ -5,7 +5,7 @@ const createOtp = async (reqBody) => {
 };
 
 const listOtp = async () => {
-    return Otp.find()
+    return Otp.find().populate({path : ""})
 };
 
 const getId = async (id) => {

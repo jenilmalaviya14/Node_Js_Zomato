@@ -5,7 +5,9 @@ const createfoodGallary = async (reqBody) => {
 };
 
 const listfoodGallary = async () => {
-    return foodGallary.find()
+    return foodGallary.find().populate({ path: "categories", select: ["Categories_name"] })
+        .populate({ path: "rest_details", select: ["Rest_name"] })
+        .populate({ path: "rest_type", select: ["Rest_type"] })
 };
 
 const getId = async (id) => {

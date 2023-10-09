@@ -4,8 +4,8 @@ const createCity = async (reqBody) => {
     return City.create(reqBody)
 };
 
-const listCity = async () => {
-    return City.find()
+const listCity = async () => {''
+    return City.find().populate({ path: "state", select : ["State_name"] })
 };
 
 const getId = async (id) => {

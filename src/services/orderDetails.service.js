@@ -5,7 +5,7 @@ const createorderDetails = async (reqBody) => {
 };
 
 const listorderDetails = async () => {
-    return orderDetails.find()
+    return orderDetails.find().populate({ path: "user" }).populate({ path: "rest_details", select: ["Rest_name"] })
 };
 
 const getId = async (id) => {

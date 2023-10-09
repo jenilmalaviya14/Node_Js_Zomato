@@ -16,7 +16,7 @@ router.post(
 // List user
 router.get(
     "/list-user",
-    // validate(userValidation.listUser),
+    validate(userValidation.listUser),
     userController.listUser
 );
 
